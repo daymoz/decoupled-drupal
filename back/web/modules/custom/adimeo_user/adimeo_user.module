@@ -1,0 +1,17 @@
+<?php
+		
+		use Drupal\user\UserInterface;
+		
+		/**
+		 * Implements hook_entity_insert();
+		 *
+		 * @param \Drupal\user\UserInterface $user
+		 *
+		 * @throws \Drupal\Core\Entity\EntityStorageException
+		 */
+function adimeo_user_user_insert(UserInterface $user) {
+		#todo Peut-être éviter de passer par le hook.
+		#todo Retrouver dynamiquement le rôle attribué au Consumer
+	$user->addRole('client');
+	$user->save();
+}
