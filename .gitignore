@@ -1,4 +1,5 @@
 .idea/*
+*/web/core
 */web/sites/*/files
 */web/sites/*/settings.php
 */vendor
