@@ -3,7 +3,7 @@
 */web/sites/*/settings.php
 */vendor
 */composer.lock
-
+*/oauth_keys/*
 .DS_Store
 node_modules
 */dist
