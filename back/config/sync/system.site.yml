@@ -1,0 +1,15 @@
+uuid: af7e66ee-cf23-4e00-8ee9-79bd360e2320
+name: 'Headless Drupal'
+mail: dletellier@adimeo.com
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /node
+admin_compact_mode: false
+weight_select_max: 100
+langcode: fr
+default_langcode: fr
+_core:
+  default_config_hash: yTxtFqBHnEWxQswuWvkjE8mKw2t8oKuCL1q8KnfHuGE
+mail_notification: ''
