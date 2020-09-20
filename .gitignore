@@ -1,6 +1,7 @@
 .idea/*
 */web/core
 */web/sites/*/files
+*/web/sites/*/services.yml
 */web/sites/*/settings.php
 */vendor
 */composer.lock
@@ -14,6 +15,7 @@ node_modules
 selenium-debug.log
 chromedriver.log
 geckodriver.log
+index.html
 
 
 # local env files
