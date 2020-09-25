@@ -23,12 +23,13 @@ const AuthService = {
 
     getAccessToken(params) {
         //C'est le standard du "body" OAuth2 pour recevoir un access token (Grant Password)
+        console.log(params);
         const OAuthGrantPasswordStandard = {
             "grant_type": "password",
             "client_id": process.env.VUE_APP_CLIENT_ID,
             "scope": "client",
         };
-        const finalParams =  new formData();
+        let finalParams =  new FormData();
         for(let param of Object.entries(OAuthGrantPasswordStandard)) {
             finalParams.append(param[0], param[1]);
         }
@@ -36,12 +37,15 @@ const AuthService = {
         for(let param of Object.entries(params)) {
             finalParams.append(param[0], param[1]);
         }
+        console.log(finalParams.entries());
         return ApiService.post(ApiService.getInstance(), 'oauth/token', finalParams);
     },
 
     verifyAccessToken() {
         //On vérifie toujours la validité de l'access token
-        return ApiService.get(ApiService.getInstance('authenticated'), 'oauth/debug?_format=json');
+        return ApiService.get(ApiService.getInstance('authenticated'), 'oauth/debug', '', {
+            "_format": "json",
+        });
     }
 };
 

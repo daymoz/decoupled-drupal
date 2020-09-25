@@ -9,12 +9,6 @@ const ApiService = {
         Vue.axios.defaults.baseURL = process.env.VUE_APP_API_URL;
     },
 
-    setHeaders() {
-        Vue.axios.defaults.headers.common[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem('access-token')}`;
-    },
-
     getInstance(type = "") {
         switch(type) {
             case 'register':
@@ -37,8 +31,10 @@ const ApiService = {
         }
     },
 
-    get(instance, resource, slug = "") {
-        return Vue.axios.get(`${resource}/${slug}`).catch(error => {
+    get(instance, resource, slug = "", params = {}) {
+        return instance.get(`${resource}/${slug}`, {
+            params: params,
+        }).catch(error => {
             throw new Error(`ApiService ${error}`);
         })
     },

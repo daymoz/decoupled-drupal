@@ -1,11 +1,29 @@
 <template>
     <div id="app">
-        <div id="nav">
-            <ul>
-                <li><router-link to="/" >Home</router-link></li>
-                <li><router-link to="/login">Se connecter</router-link></li>
-                <li><router-link to="/register">S'inscrire</router-link></li>
-            </ul>
+        <div class="toolbar">
+            <nav id="nav">
+                <ul>
+                    <li>
+                        <router-link to="/">Home</router-link>
+                    </li>
+                    <li v-if="!isAuthenticated">
+                        <router-link to="/login">Se connecter</router-link>
+                    </li>
+                    <li v-if="!isAuthenticated">
+                        <router-link to="/register">S'inscrire</router-link>
+                    </li>
+                </ul>
+            </nav>
+            <div v-if="isAuthenticated" id="account">
+                <p>Bonjour {{ getProfile[1].attributes.display_name }}</p>
+                <nav>
+                    <ul>
+                        <li>
+                            <router-link to="/profile">Mon profil</router-link>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
         <router-view/>
         <Toaster/>
@@ -16,9 +34,14 @@
 </style>
 <script>
     import Toaster from "./components/Toaster";
+    import {mapGetters} from "vuex";
+
     export default {
         components: {
             Toaster
+        },
+        computed: {
+            ...mapGetters(['isAuthenticated', 'getProfile'])
         }
     }
 </script>

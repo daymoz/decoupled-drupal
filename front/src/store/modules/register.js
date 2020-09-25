@@ -24,6 +24,7 @@ const actions = {
                 .then(response => {
                     dispatch(TOAST, "Inscription réussie");
                     resolve(response);
+                    commit(REGISTER_SUCCESS);
                 })
                 .catch(error => {
                     dispatch(TOAST, "L'inscription a échoué");
@@ -37,6 +38,9 @@ const actions = {
 const mutations = {
     [REGISTER_REQUEST]: state => {
         state.status = "Je réfléchis...";
+    },
+    [REGISTER_SUCCESS]: state => {
+        state.status = "S'incrire";
     },
     [REGISTER_ERROR]: state => {
         state.status = "S'inscrire";
