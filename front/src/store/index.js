@@ -4,6 +4,7 @@ import auth from "./modules/auth";
 import register from "./modules/register";
 import user from "./modules/user";
 import toaster from "./modules/toaster";
+import article from "./modules/article";
 
 Vue.use(Vuex);
 
@@ -13,5 +14,6 @@ export default new Vuex.Store({
     auth,
     user,
     toaster,
+    article
   }
 })

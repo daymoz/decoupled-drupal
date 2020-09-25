@@ -1,6 +1,9 @@
 <template>
     <div id="app">
-        <div class="toolbar">
+        <div class="center">
+            <vs-navbar center-collapsed square>
+
+            </vs-navbar>
             <nav id="nav">
                 <ul>
                     <li>
@@ -35,9 +38,11 @@
 <script>
     import Toaster from "./components/Toaster";
     import {mapGetters} from "vuex";
+    import VsNavbar from "vuesax/src/components/vsNavbar/Base/vsNavbar";
 
     export default {
         components: {
+            VsNavbar,
             Toaster
         },
         computed: {

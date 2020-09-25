@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Vuesax from 'vuesax'
-import 'vuesax/dist/vuesax.css'
+import 'vuesax/dist/vuesax.min.css'
 
 import ApiService from "./utils/api.service";
 import { CSRFTokenService } from "./utils/api.service";
