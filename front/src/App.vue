@@ -1,52 +1,77 @@
 <template>
     <div id="app">
-        <div class="center">
-            <vs-navbar center-collapsed square>
-
-            </vs-navbar>
-            <nav id="nav">
-                <ul>
-                    <li>
-                        <router-link to="/">Home</router-link>
-                    </li>
-                    <li v-if="!isAuthenticated">
-                        <router-link to="/login">Se connecter</router-link>
-                    </li>
-                    <li v-if="!isAuthenticated">
-                        <router-link to="/register">S'inscrire</router-link>
-                    </li>
-                </ul>
-            </nav>
-            <div v-if="isAuthenticated" id="account">
-                <p>Bonjour {{ getProfile[1].attributes.display_name }}</p>
-                <nav>
-                    <ul>
-                        <li>
-                            <router-link to="/profile">Mon profil</router-link>
-                        </li>
-                    </ul>
-                </nav>
+        <TheHeader/>
+        <el-main>
+            <div class="container">
+                <router-view/>
             </div>
-        </div>
-        <router-view/>
-        <Toaster/>
+        </el-main>
+        <Toaster v-if="toasterStatus"/>
+        <Loader v-if="isLoading"/>
+        <TheFooter/>
     </div>
 </template>
 
-<style lang="scss">
-</style>
+
 <script>
     import Toaster from "./components/Toaster";
     import {mapGetters} from "vuex";
-    import VsNavbar from "vuesax/src/components/vsNavbar/Base/vsNavbar";
+    import Loader from "./components/Loader";
+    import TheHeader from "./components/TheHeader";
+    import TheFooter from "./components/TheFooter";
 
     export default {
         components: {
-            VsNavbar,
-            Toaster
+            TheFooter,
+            TheHeader,
+            Toaster,
+            Loader,
+        },
+        data: function () {
+            return {}
         },
         computed: {
-            ...mapGetters(['isAuthenticated', 'getProfile'])
-        }
+            ...mapGetters(['toasterStatus', 'isLoading'])
+        },
     }
 </script>
+
+<style lang="scss">
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap');
+
+    $black: #2F3545;
+    $primary: #734cf1;
+
+    html {
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    #app {
+        font-family: 'Montserrat', sans-serif;
+        color: $black;
+
+        button {
+            font-weight: 700;
+        }
+
+        .header-title {
+            margin: 0;
+            color: $black;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lato', sans-serif;
+        }
+
+        .align-center {
+            text-align: center;
+        }
+    }
+</style>
+

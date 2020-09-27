@@ -17,7 +17,7 @@ const getters = {
 
 const actions = {
     [GET_ALL_ARTICLES]: ({ commit }) => {
-        commit('LOADING');
+        commit('LOADING_ARTICLES');
         return new Promise((resolve, reject) => {
             entityService.getAll('article').then(response => {
                 commit(GET_ALL_ARTICLES, response.data);
@@ -31,7 +31,7 @@ const actions = {
 };
 
 const mutations = {
-    ['LOADING']: (state) => {
+    ['LOADING_ARTICLES']: state => {
         state.gettingArticles = true;
     },
     [GET_ALL_ARTICLES]: (state, articles) => {

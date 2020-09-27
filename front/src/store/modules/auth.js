@@ -15,10 +15,10 @@ import {
 
 import { TOAST } from "../actions/toaster";
 import authService from '../../utils/auth.service';
+import {FINISH, LOADING} from "../mutations/loader";
 
 const state = {
     token: localStorage.getItem('user-token') || "",
-    status: "Se connecter",
 };
 
 const getters = {
@@ -27,30 +27,30 @@ const getters = {
 
 const actions = {
     [ACCESS_TOKEN_REQUEST]: ({ commit, dispatch }, formLoginData) => {
+        commit(LOADING, 'Connexion en cours...');
         return new Promise((resolve, reject) => {
-            commit(ACCESS_TOKEN_REQUEST);
             authService.getAccessToken(formLoginData).then(response => {
                 localStorage.setItem('user-token', response.data.access_token);
                 localStorage.setItem('refresh-token', response.data.refresh_token);
                 return dispatch(ACCESS_TOKEN_VERIFICATION);
             })
             .then((response) => {
+                commit(FINISH);
                 console.log('Identification terminée');
                 console.log(response);
-                commit(AUTH_SUCCESS);
-                dispatch(TOAST, 'Connexion réussie');
+                dispatch(TOAST, {message: 'Connexion réussie', type: 'success'});
                 resolve();
             })
             .catch(error => {
-                commit(AUTH_ERROR);
-                dispatch(TOAST, 'La connexion a échoué');
+                commit(FINISH);
+                dispatch(TOAST, {message: 'La connexion a échoué', type: 'error'});
                 reject(error);
             });
         });
     },
     [ACCESS_TOKEN_VERIFICATION]: ({ commit, dispatch }) => {
+        commit(LOADING, 'Vérification...');
         return new Promise((resolve, reject) => {
-            commit(ACCESS_TOKEN_VERIFICATION);
             authService.verifyAccessToken().then(response => {
                 console.log('Verification du token');
                 console.log(response);
@@ -58,10 +58,11 @@ const actions = {
             })
             .then((response) => {
                 console.log('Données utilisateurs reçues');
+                commit(FINISH);
                 resolve(response);
             })
             .catch(error => {
-                commit(AUTH_ERROR);
+                commit(FINISH);
                 console.log('Utilisation du refresh token ?');
                 localStorage.removeItem('user-token');
                 reject(error);
@@ -73,30 +74,20 @@ const actions = {
         if(localStorage.getItem('user-token')) {
             dispatch(ACCESS_TOKEN_VERIFICATION);
         } else {
-            dispatch(AUTH_LOGOUT);
+            console.log('On purge');
+            dispatch(USER_PURGE);
         }
     },
     [AUTH_LOGOUT]: ({ dispatch }) => {
         dispatch(USER_PURGE);
         localStorage.removeItem('refresh-token');
         localStorage.removeItem('user-token');
-        dispatch(TOAST, "Vous avez été déconnecté");
+        dispatch(TOAST, {message: "Vous avez été déconnecté", type: 'success'});
     },
 };
 
 const mutations = {
-    [ACCESS_TOKEN_REQUEST]: state => {
-        state.status = 'En attente...';
-    },
-    [ACCESS_TOKEN_VERIFICATION]: state => {
-        state.status = 'Verification...';
-    },
-    [AUTH_SUCCESS]: state => {
-        state.status = 'Connexion';
-    },
-    [AUTH_ERROR]: state => {
-        state.status = 'Connexion';
-    }
+
 };
 
 export default {

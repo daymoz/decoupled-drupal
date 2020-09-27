@@ -6,6 +6,7 @@ import {
 
 import { TOAST } from "../actions/toaster";
 import authService from '../../utils/auth.service';
+import {FINISH, LOADING} from "../mutations/loader";
 
 const state = {
     status: "S'inscrire",
@@ -20,14 +21,17 @@ const actions = {
     [REGISTER_REQUEST]: ({ commit, dispatch }, formRegistrationData) => {
         return new Promise((resolve, reject) => {
             commit(REGISTER_REQUEST);
+            commit(LOADING, 'Inscription en cours...');
             authService.register(formRegistrationData)
                 .then(response => {
-                    dispatch(TOAST, "Inscription réussie");
+                    dispatch(TOAST, { message: "Inscription réussie", type: 'success'});
                     resolve(response);
                     commit(REGISTER_SUCCESS);
+                    commit(FINISH);
                 })
                 .catch(error => {
-                    dispatch(TOAST, "L'inscription a échoué");
+                    commit(FINISH);
+                    dispatch(TOAST, { message: "L'inscription a échoué", type: "error"});
                     commit(REGISTER_ERROR);
                     reject(error);
                 });

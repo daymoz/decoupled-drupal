@@ -2,8 +2,11 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import Vuesax from 'vuesax'
-import 'vuesax/dist/vuesax.min.css'
+import 'normalize.css'
+import moment from 'moment';
+import ElementUI from 'element-ui'
+import "./assets/styles/element-variables.scss"
+import locale from 'element-ui/lib/locale/lang/fr';
 
 import ApiService from "./utils/api.service";
 import { CSRFTokenService } from "./utils/api.service";
@@ -11,9 +14,11 @@ import { AUTH_CHECK } from "./store/actions/auth";
 
 Vue.config.productionTip = false;
 
-Vue.use(Vuesax, {
-  // options here
-});
+Vue.use(ElementUI, { locale });
+
+moment.locale('fr');
+
+
 
 ApiService.init();
 

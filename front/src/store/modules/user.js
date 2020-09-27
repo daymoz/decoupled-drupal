@@ -5,6 +5,7 @@ import {
     USER_PURGE
 } from "../actions/user";
 import userService from "../../utils/user.service";
+import {FINISH, LOADING} from "../mutations/loader";
 
 
 const state = {
@@ -19,21 +20,25 @@ const getters = {
 
 const actions = {
     [USER_REQUEST]: ({ commit, dispatch }, userData) => {
+        commit(LOADING, "Récupération de l'utilisateur...");
         return new Promise((resolve, reject) => {
             console.log(userData);
             userService.me(userData.id).then((response) => {
                 console.log(response);
                 console.log(response.data);
-                commit(USER_SUCCESS, [userData, response.data.data[0]]);
+                const includedData = response.data.included ? response.data.included[0] : [];
+                commit(USER_SUCCESS, [userData, response.data.data[0], includedData]);
                 resolve(response);
             })
             .catch(error => {
+                commit(FINISH);
                 console.log('Données utilisateur non reçues');
                 reject(error);
             })
         });
     },
     [USER_PURGE]: ({ commit }) => {
+        commit(FINISH);
         commit(USER_PURGE);
     }
 };
